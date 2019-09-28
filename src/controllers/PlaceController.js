@@ -3,12 +3,6 @@ const mongoose = require('mongoose');
 const Place = mongoose.model('Place');
 
 module.exports = {
-    async destroy(req, res) {
-        await Place.findByIdAndRemove(req.params.id);
-
-        return res.send();
-    },
-
     async index(req, res) {
         const { page = 1 } = req.query;
         const places = await Place.paginate({}, { page: page, limit: 10 });
@@ -32,5 +26,11 @@ module.exports = {
         const place = await Place.findByIdAndUpdate(req.params.id, req.body, { new: true });
 
         return res.json(place);
+    },
+
+    async destroy(req, res) {
+        await Place.findByIdAndRemove(req.params.id);
+
+        return res.send();
     }
 };
